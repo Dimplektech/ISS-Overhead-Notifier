@@ -11,6 +11,18 @@ MY_LONG = -0.127758
 # check whether ISS is nearer to us
 
 def is_iss_overhead():
+    """
+        Checks if the International Space Station (ISS) is currently overhead.
+
+        The function fetches the current position of the ISS using the
+        Open Notify API and compares its latitude and longitude with
+        your location. If the ISS is within ±5 degrees of your location,
+        it returns True.
+
+        Returns:
+            bool: True if the ISS is overhead (within ±5 degrees), False otherwise.
+        """
+
     response = requests.get(url="http://api.open-notify.org/iss-now.json")
     response.raise_for_status()
     data = response.json()
@@ -25,7 +37,16 @@ def is_iss_overhead():
         return True
 
 def is_dark():
-    #---get sunrise and sunset time of your location
+    """
+        Checks if it is currently dark at your location based on sunrise and sunset times.
+
+        The function uses the Sunrise-Sunset API to fetch the sunrise and sunset
+        times for your location, and then checks the current hour to determine
+        if it is dark (before sunrise or after sunset).
+
+        Returns:
+            bool: True if it is currently dark, False otherwise.
+        """
     parameters = {
         "lat":MY_LAT,
         "lng":MY_LONG,
@@ -53,24 +74,54 @@ def is_dark():
 #If the ISS is close to my current position
 # and it is currently dark
 # Then send me an email to tell me to look up.
-# BONUS: run the code every 60 seconds.
-while True:
-    # Keep checking in 1 min
-    time.sleep(60)
-    if is_dark() and  is_iss_overhead():
-        # ---Create Connection to send email
-        my_email = "dimple.temp27@gmail.com"
-        password = "ijtp nazs bupm prmt"  # App password not email password
-        connection = smtplib.SMTP("smtp.gmail.com")
-        connection.starttls()
-        connection.login(user=my_email, password=password)
-        connection.sendmail(from_addr=my_email,
-                            to_addrs="dimple.temp27@yahoo.com",
-                            msg="Subject:Look up!! \n\n International Space Ship(ISS) is above in the Sky")
-        connection.close()
-        print("LOOK UP IN THE SKY ,U might see Iss!!")
-    else:
-        print("Not yet")
+# BONUS: run the code every """
+
+def send_notification():
+    """
+       Sends an email notification if the ISS is overhead and it's currently dark.
+
+       The function establishes a connection with the Gmail SMTP server using
+       your email credentials and sends an email alert if the ISS is above
+       and it's nighttime.
+       """
+    # ---Create Connection to send email
+    my_email = "dimple.temp27@gmail.com"
+    password = "ijtp nazs bupm prmt"  # App password not email password
+    connection = smtplib.SMTP("smtp.gmail.com")
+    connection.starttls()
+    connection.login(user=my_email, password=password)
+
+    # Send the email.
+    connection.sendmail(from_addr=my_email,
+                        to_addrs="dimple.temp27@yahoo.com",
+                        msg="Subject:Look up!! \n\n International Space Ship(ISS) is above in the Sky")
+    # Close the connection
+    connection.close()
+
+# Main Script loop
+if __name__ == "__main__":
+
+
+    """
+       Main program logic that runs continuously.
+
+       This loop runs indefinitely, checking every 60 seconds if:
+       - The ISS is overhead.
+       - It is currently dark.
+
+       If both conditions are met, an email notification is sent. 
+       Otherwise, the loop continues to check every 60 seconds.
+    """
+    while True:
+
+        # Keep checking in 1 min
+        time.sleep(60)
+        # If it's dark and the ISS is overhead, send an email
+        if is_dark() and  is_iss_overhead():
+            send_notification()
+            print("LOOK UP IN THE SKY ,U might see Iss!!")
+        else:
+            print("Not yet")
 
 
 
