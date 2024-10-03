@@ -16,6 +16,10 @@ This Python project checks if the International Space Station (ISS) is overhead 
   - `requests`: To make HTTP requests.
   - `smtplib`: For sending emails.
 
+ ## API References
+- ISS Current Location API: Open Notify ISS API
+- Sunrise-Sunset API: Sunrise-Sunset API    
+
 ## Installation
 
 1. **Clone the repository**:
@@ -24,7 +28,7 @@ This Python project checks if the International Space Station (ISS) is overhead 
 
 2. **Install required libraries**:
    ```bash
-  pip install requests
+   pip install requests
 
 ## Configuration
   1. **Latitude and Longitude**
@@ -52,10 +56,6 @@ This Python project checks if the International Space Station (ISS) is overhead 
   
     - my_email: Your Gmail address.
     - password: Your Gmail App Password generated for this application
-   
-## API References
-- ISS Current Location API: Open Notify ISS API
-- Sunrise-Sunset API: Sunrise-Sunset API    
 
 ## How to Run
 ```bash
